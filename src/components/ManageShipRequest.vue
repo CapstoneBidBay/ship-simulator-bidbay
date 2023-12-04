@@ -67,17 +67,6 @@ onMounted(() => {
   initFlowbite()
   firstLogin()
 })
-const confirmToWaitingForDelivery = async shipRequestId => {
-  try {
-    showUpdateModal.value = false
-    await ShipRequestService.staffConfirmShipRequest(shipRequestId)
-    toastOption.toastSuccess('Xác nhận đơn hàng thành công')
-    getAllShipRequest()
-  } catch (e) {
-    toastOption.toastError('Xác nhận đơn hàng thất bại')
-    console.error(e)
-  }
-}
 const staffChangeShipRequestToOnDelivery = async shipRequestId => {
   try {
     showUpdateModal.value = false
@@ -420,13 +409,6 @@ const firstLogin = () => {
               <Carousel :pictures="convertedImages"></Carousel>
             </div>
             <div class="flex items-center mt-2 space-x-4">
-              <button
-                v-if="selectedShip?.status === 'WAITING_FOR_CONFIRMATION'"
-                @click="confirmToWaitingForDelivery(selectedShip?.id)"
-                type="button"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                Xác nhận đơn hàng
-              </button>
               <button
                 v-if="selectedShip?.status === 'WAITING_FOR_DELIVERY'"
                 @click="staffChangeShipRequestToOnDelivery(selectedShip?.id)"

@@ -9,6 +9,7 @@ import { SIMPLE_TABLE_ITEMS_PER_PAGE } from '@/common/commonStaticState'
 import { ACCOUNT_PHONE, ACCOUNT_PASSWORD } from '@/common/urlConstant'
 import loginService from '@/services/login.service'
 import { useUserStore } from "@/stores/user.store";
+import { StatusShipRequest } from "@/common/contract"
 
 const userStore = useUserStore()
 const selectedShip = ref(null)
@@ -21,7 +22,7 @@ const getAllShipRequest = async () => {
   try {
     const query = ''
     const response = await ShipRequestService.getAllShipRequest(query)
-    shipRequestList.value = response.data
+    shipRequestList.value = response.data ? response.data.filter(f => f.status !== StatusShipRequest.waitingForConfirmation.value) : []
   } catch (e) {
     console.error(e)
   }
